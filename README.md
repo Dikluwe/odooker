@@ -18,9 +18,9 @@ Um wizard web interativo que gera configurações completas e prontas para produ
 - **🔧 Configuração Flexível**: PostgreSQL, Redis, Nginx opcionais
 - **📖 Documentação Completa**: READMEs explicativos para cada pasta
 
-## 🏗️ O que é Gerado
+## 🏗️ O que é Gerador Odooker
 
-O wizard cria uma estrutura completa de projeto Odoo:
+O Odooker cria uma estrutura completa de projeto para um contêiner Docker com Odoo:
 
 ```
 meu-projeto-odoo/
