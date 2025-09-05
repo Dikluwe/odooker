@@ -4,7 +4,7 @@
 
 Um wizard web interativo que gera configurações completas e prontas para produção do Odoo usando Docker Compose. Simplifica a criação de ambientes Odoo com PostgreSQL, Redis, Nginx e configurações de segurança.
 
-## 🚀 Demo Online
+## 🚀 Online
 
 **[👉 Acesse o Gerador Odooker](https://dikluwe.github.io/odooker/)**
 
