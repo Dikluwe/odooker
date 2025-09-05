@@ -1,0 +1,685 @@
+/* ====================================================================
+   GERADOR DE CONFIGURAÇÃO ODOO - CSS COM DESIGN SYSTEM
+   ====================================================================
+   Sistema de design baseado em CSS Custom Properties para garantir
+   consistência visual, facilitar manutenção e permitir temas dinâmicos
+   ================================================================== */
+
+/* 
+=== SISTEMA DE DESIGN BASEADO EM CSS CUSTOM PROPERTIES ===
+Centralização de todas as variáveis do design system para garantir 
+consistência e facilitar manutenção. Uso de nomenclatura semântica
+ao invés de descritiva (ex: --primary-color ao invés de --blue)
+*/
+:root {
+    /* 
+    PALETA DE CORES SEMÂNTICAS
+    Organização hierárquica: primárias -> secundárias -> neutras -> especiais
+    Nomenclatura baseada em função, não em aparência visual
+    Isso permite mudanças de tema sem alterar nomes de variáveis
+    */
+    --primary-color: #3498db;      /* Azul principal para CTAs e elementos primários */
+    --primary-dark: #2980b9;       /* Variação escura para hover/active states */
+    --secondary-color: #6c757d;    /* Cinza para ações secundárias */
+    --secondary-dark: #5a6268;     /* Hover do secondary */
+    --success-color: #27ae60;      /* Verde para confirmações e estados positivos */
+    --success-dark: #229954;       /* Hover do success */
+    --danger-color: #e74c3c;       /* Vermelho para campos obrigatórios/erros */
+    --warning-color: #856404;      /* Marrom para avisos e alertas */
+    --warning-bg: #fff3cd;         /* Fundo amarelo claro para alertas */
+    --warning-border: #ffeaa7;     /* Borda dos alertas de warning */
+    
+    /* 
+    ESCALA DE CORES NEUTRAS
+    Sistema monocromático para textos, bordas e fundos
+    Nomenclatura descritiva da função, não da cor específica
+    Permite mudanças globais de contraste facilmente
+    */
+    --dark-color: #2c3e50;         /* Cor principal para títulos e textos importantes */
+    --text-muted: #666;            /* Textos secundários/descrições */
+    --border-light: #e1e8ed;       /* Bordas suaves de inputs em estado normal */
+    --border-color: #e9ecef;       /* Bordas divisórias e separadores */
+    --bg-light: #f8f9fa;           /* Fundos de cards/containers secundários */
+    --white: #ffffff;              /* Branco puro para fundos principais */
+    
+    /* 
+    TEMA DARK PARA CÓDIGO
+    Cores específicas para blocos de código simulando terminal/IDE
+    Inspirado no theme Dark+ do VS Code para familiaridade
+    */
+    --code-bg: #2d3748;            /* Fundo escuro tipo VS Code */
+    --code-text: #e2e8f0;          /* Texto claro contrastante */
+    --code-accent: #4a90e2;        /* Azul para highlights e nomes de arquivo */
+    --code-border: #4a5568;        /* Bordas no tema escuro */
+    
+    /* 
+    GRADIENTES REUTILIZÁVEIS
+    Evita repetição de código e centraliza definições visuais
+    Usar var() dentro de gradientes permite mudanças dinâmicas
+    linear-gradient com 135deg cria diagonal moderna
+    */
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    --gradient-success: linear-gradient(135deg, var(--success-color), var(--success-dark));
+    --gradient-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-header: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+    
+    /* 
+    SISTEMA DE SOMBRAS PADRONIZADO
+    Sombras com propósitos específicos: elevação, foco, estado
+    box-shadow com rgba() para transparência adequada
+    Nomes descritivos do uso, não da aparência
+    */
+    --shadow-light: 0 20px 40px rgba(0, 0, 0, 0.1);           /* Elevação suave para cards */
+    --shadow-primary: 0 10px 20px rgba(52, 152, 219, 0.3);    /* Hover de botões primários */
+    --shadow-success: 0 10px 20px rgba(39, 174, 96, 0.3);     /* Hover de botões success */
+    --shadow-focus: 0 0 0 3px rgba(52, 152, 219, 0.1);        /* Estado de foco acessível */
+    
+    /* 
+    ESCALA DE ESPAÇAMENTOS CONSISTENTE
+    Sistema baseado em múltiplos de 5px para harmonia visual
+    Nomenclatura: xs, sm, md, lg, xl, 2xl (padrão do Tailwind CSS)
+    Facilita manutenção e garante proporções consistentes
+    */
+    --spacing-xs: 5px;     /* Espaçamentos mínimos (margins pequenas) */
+    --spacing-sm: 10px;    /* Pequenos (gap entre elementos próximos) */
+    --spacing-md: 15px;    /* Médios (padding interno de components) */
+    --spacing-lg: 20px;    /* Grandes (margins entre seções) */
+    --spacing-xl: 30px;    /* Extra grandes (padding de containers) */
+    --spacing-2xl: 40px;   /* Muito grandes (separação de seções principais) */
+    
+    /* 
+    BORDER RADIUS PADRONIZADO
+    Diferentes níveis de arredondamento para hierarquia visual
+    Valores crescentes criam hierarquia de importância
+    */
+    --radius-sm: 5px;      /* Pequeno (botões pequenos, badges) */
+    --radius-md: 10px;     /* Médio (inputs, cards secundários) */
+    --radius-lg: 20px;     /* Grande (containers principais) */
+    --radius-pill: 50px;   /* Completamente arredondado (botões CTA) */
+    
+    /* 
+    DURAÇÕES DE TRANSIÇÃO CONSISTENTES
+    Padronização dos tempos de animação para coerência
+    Diferentes durações para diferentes tipos de feedback
+    */
+    --transition-fast: 0.2s ease;       /* Feedback imediato (hover de botões) */
+    --transition-normal: 0.3s ease;     /* Padrão para a maioria das interações */
+    --transition-slow: 0.5s ease-in-out; /* Animações elaboradas (mudança de passo) */
+}
+
+/* ====================================================================
+   RESET UNIVERSAL MODERNO
+   ================================================================== */
+
+/* 
+Reset universal que resolve problemas comuns de CSS
+box-sizing: border-box evita problemas de cálculo de dimensões
+Remoção de margens/paddings padrão inconsistentes dos browsers
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Inclui padding/border no width/height */
+}
+
+/* ====================================================================
+   CONFIGURAÇÕES BASE DO BODY
+   ================================================================== */
+
+/* 
+Body com gradiente de fundo e configurações globais
+Uso da variável --gradient-background para reutilização
+min-height: 100vh garante cobertura total da viewport
+font-family system stack para performance e consistência
+*/
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--gradient-background); /* Gradiente reutilizável */
+    min-height: 100vh; /* Altura mínima = viewport inteira */
+    padding: var(--spacing-lg); /* Espaçamento externo consistente */
+}
+
+/* ====================================================================
+   CONTAINER PRINCIPAL COM GLASSMORPHISM
+   ================================================================== */
+
+/* 
+Container principal com efeito glassmorphism moderno
+rgba() para transparência + border-radius + box-shadow = efeito atual
+max-width para responsividade + margin auto para centralização
+overflow: hidden necessário para border-radius funcionar com conteúdo
+*/
+.container {
+    max-width: 1200px; /* Largura máxima para legibilidade */
+    margin: 0 auto; /* Centralização horizontal */
+    background: rgba(255, 255, 255, 0.95); /* Glassmorphism: branco translúcido */
+    border-radius: var(--radius-lg); /* Bordas arredondadas grandes */
+    box-shadow: var(--shadow-light); /* Elevação suave */
+    overflow: hidden; /* Evita vazamento nas bordas arredondadas */
+}
+
+/* ====================================================================
+   HEADER DO WIZARD
+   ================================================================== */
+
+/* 
+Header com gradiente reutilizável e informações principais
+Uso da variável --gradient-header elimina redundância de código
+Centralização para melhor apresentação visual
+*/
+.header {
+    background: var(--gradient-header); /* Gradiente do dark-color para primary */
+    color: var(--white);
+    padding: var(--spacing-xl); /* Padding usando variável */
+    text-align: center;
+}
+
+/* Título principal com hierarquia clara */
+.header h1 {
+    font-size: 2.5rem; /* Tamanho impactante */
+    margin-bottom: var(--spacing-sm); /* Espaçamento consistente */
+}
+
+/* Subtítulo com opacidade para hierarquia visual */
+.header p {
+    opacity: 0.9; /* Levemente translúcido para hierarquia */
+    font-size: 1.1rem;
+}
+
+/* ====================================================================
+   ÁREA DE CONTEÚDO PRINCIPAL
+   ================================================================== */
+
+/* Container do conteúdo com padding generoso */
+.content {
+    padding: var(--spacing-2xl); /* Padding grande para respiração visual */
+}
+
+/* ====================================================================
+   SISTEMA DE PASSOS DO WIZARD
+   ================================================================== */
+
+/* 
+Sistema de passos com animação suave
+display: none + .active = show/hide simples e eficiente
+animation usando variável de transição para consistência
+*/
+.step {
+    display: none; /* Oculto por padrão */
+    animation: fadeIn var(--transition-slow); /* Animação de entrada */
+}
+
+/* Passo ativo: visível com animação */
+.step.active {
+    display: block;
+}
+
+/* 
+Animação fadeIn suave com movimento vertical
+translateY cria efeito de "slide up" moderno
+Uso de variável --spacing-lg para distância consistente
+*/
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(var(--spacing-lg)); /* Começa abaixo */
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); /* Termina na posição normal */
+    }
+}
+
+/* ====================================================================
+   CABEÇALHOS DOS PASSOS
+   ================================================================== */
+
+/* Container do cabeçalho com espaçamento consistente */
+.step-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Título de cada passo usando cor semântica */
+.step-title {
+    color: var(--dark-color); /* Variável semântica para títulos */
+    font-size: 1.8rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Descrição com cor para textos secundários */
+.step-description {
+    color: var(--text-muted); /* Cor específica para textos secundários */
+    font-size: 1rem;
+    line-height: 1.6; /* Line-height confortável para leitura */
+}
+
+/* ====================================================================
+   SISTEMA DE FORMULÁRIOS
+   ================================================================== */
+
+/* Grupo de campos relacionados com espaçamento */
+.form-group {
+    margin-bottom: 25px; /* Poderia usar var(--spacing-xl) para consistência */
+}
+
+/* 
+Layout flexível para formulários responsivos
+gap substitui margins complexas entre elementos
+Mais limpo e fácil de manter que margins manuais
+*/
+.form-row {
+    display: flex;
+    gap: var(--spacing-lg); /* Espaço entre colunas */
+    margin-bottom: var(--spacing-lg);
+}
+
+/* 
+Primeira media query responsiva para tablets
+Quebra layout em coluna para telas pequenas
+Ajusta espaçamentos proporcionalmente
+*/
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column; /* Stack vertical em tablets */
+        gap: var(--spacing-md);  /* Gap menor para economizar espaço */
+    }
+    
+    .container {
+        margin: var(--spacing-sm);     /* Margem menor nas laterais */
+        border-radius: var(--spacing-md); /* Border radius menor */
+    }
+    
+    .content {
+        padding: var(--spacing-lg); /* Padding reduzido para mobile */
+    }
+}
+
+/* Colunas que distribuem espaço igualmente */
+.form-col {
+    flex: 1; /* Distribui espaço disponível igualmente */
+}
+
+/* ====================================================================
+   LABELS E ELEMENTOS DE FORMULÁRIO
+   ================================================================== */
+
+/* 
+Labels usando variáveis de cor e espaçamento
+font-weight: 600 (semi-bold) para hierarquia visual
+display: block para ocupar linha inteira
+*/
+label {
+    display: block;
+    font-weight: 600; /* Semi-bold para destaque */
+    color: var(--dark-color); /* Cor consistente com títulos */
+    margin-bottom: 8px; /* Poderia usar var(--spacing-sm) */
+    font-size: 0.95rem;
+}
+
+/* ====================================================================
+   CAMPOS DE ENTRADA (INPUTS, SELECTS, TEXTAREAS)
+   ================================================================== */
+
+/* 
+Inputs padronizados com transições suaves
+Borda de 2px para área de toque adequada (mobile-friendly)
+border-radius e cores usando variáveis para consistência
+font-size: 1rem evita zoom em iOS
+*/
+input, select, textarea {
+    width: 100%;
+    padding: 12px 16px; /* Padding confortável para toque */
+    border: 2px solid var(--border-light); /* Borda sutil */
+    border-radius: var(--radius-md); /* Arredondamento médio */
+    font-size: 1rem; /* Evita zoom automático no iOS */
+    transition: all var(--transition-normal); /* Transição suave */
+    background: var(--white);
+}
+
+/* 
+Estados de foco melhorados para acessibilidade
+outline: none remove foco padrão do browser
+box-shadow cria glow effect customizado e acessível
+*/
+input:focus, select:focus, textarea:focus {
+    outline: none; /* Remove outline padrão */
+    border-color: var(--primary-color); /* Borda na cor primária */
+    box-shadow: var(--shadow-focus); /* Glow azul acessível */
+}
+
+/* 
+Foco visível para navegação por teclado (acessibilidade)
+:focus-visible só ativa com navegação por teclado
+outline-offset cria espaço entre elemento e outline
+Essencial para usuários que navegam por teclado
+*/
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* ====================================================================
+   SISTEMA DE CHECKBOXES E ADDONS
+   ================================================================== */
+
+/* 
+Grid responsivo para addons/checkboxes
+auto-fill + minmax = colunas que se ajustam automaticamente
+300px = largura mínima antes de quebrar linha
+1fr = expande para preencher espaço disponível
+*/
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+/* 
+Segunda media query para smartphones
+640px = breakpoint comum para smartphones
+1fr = uma coluna única em telas muito pequenas
+*/
+@media (max-width: 640px) {
+    .checkbox-group {
+        grid-template-columns: 1fr; /* Uma coluna em smartphones */
+    }
+}
+
+/* 
+Checkbox items como cards interativos
+cursor: pointer indica que é clicável
+transition em "all" para mudanças suaves em qualquer propriedade
+*/
+.checkbox-item {
+    background: var(--bg-light); /* Fundo claro neutro */
+    border: 2px solid var(--border-color); /* Borda sutil */
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    transition: all var(--transition-normal); /* Transição suave */
+    cursor: pointer; /* Indica interatividade */
+}
+
+/* 
+Estados hover e selected com cores diferentes
+Feedback visual claro para interação do usuário
+*/
+.checkbox-item:hover {
+    border-color: var(--primary-color); /* Borda azul no hover */
+    background: #e3f2fd; /* Poderia ser uma variável --primary-bg-light */
+}
+
+.checkbox-item.selected {
+    border-color: var(--success-color); /* Borda verde quando selecionado */
+    background: #d5edda; /* Poderia ser uma variável --success-bg-light */
+}
+
+/* Checkbox nativo dentro do card */
+.checkbox-item input[type="checkbox"] {
+    width: auto; /* Não preenche toda a largura como outros inputs */
+    margin-right: var(--spacing-sm); /* Espaço entre checkbox e texto */
+}
+
+/* ====================================================================
+   TIPOGRAFIA DOS ADDONS
+   ================================================================== */
+
+/* 
+Hierarquia clara na tipografia dos addons
+Nome em bold para destaque, descrição normal para legibilidade
+*/
+.addon-name {
+    font-weight: 600; /* Semi-bold para destaque */
+    color: var(--dark-color);
+    margin-bottom: var(--spacing-xs); /* Espaço mínimo */
+}
+
+.addon-description {
+    font-size: 0.9rem; /* Ligeiramente menor que o texto normal */
+    color: var(--text-muted); /* Cor para textos secundários */
+    line-height: 1.4; /* Line-height confortável */
+}
+
+/* ====================================================================
+   BOTÕES DE NAVEGAÇÃO
+   ================================================================== */
+
+/* 
+Layout dos botões de navegação do wizard
+justify-content: space-between = espaçamento automático nas extremidades
+border-top como divisor visual entre conteúdo e navegação
+*/
+.buttons {
+    display: flex;
+    justify-content: space-between; /* Botões nas extremidades */
+    align-items: center; /* Alinhamento vertical */
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-xl);
+    border-top: 2px solid var(--border-color); /* Divisor visual */
+}
+
+/* 
+Terceira media query específica para botões em mobile
+flex-direction: column para stack vertical
+text-align: center para melhor apresentação
+*/
+@media (max-width: 480px) {
+    .buttons {
+        flex-direction: column; /* Stack vertical em smartphones */
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+}
+
+/* ====================================================================
+   SISTEMA DE BOTÕES
+   ================================================================== */
+
+/* 
+Classe base para todos os botões
+border-radius: var(--radius-pill) = completamente arredondado
+display: inline-flex para alinhar ícones e texto perfeitamente
+gap para espaçamento entre ícone e texto
+*/
+.btn {
+    padding: 12px var(--spacing-xl); /* Padding horizontal maior */
+    border: none;
+    border-radius: var(--radius-pill); /* Botão pill-shaped */
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal); /* Transição em todas as propriedades */
+    text-decoration: none; /* Remove underline se usado como link */
+    display: inline-flex; /* Para alinhar ícones e texto */
+    align-items: center; /* Alinhamento vertical perfeito */
+    gap: var(--spacing-sm); /* Espaço entre ícone e texto */
+}
+
+/* 
+Botões primários com gradientes reutilizáveis
+transform: translateY(-2px) = efeito de elevação no hover
+box-shadow usando variáveis = sombra colorida consistente
+*/
+.btn-primary {
+    background: var(--gradient-primary); /* Gradiente azul */
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px); /* Elevação sutil */
+    box-shadow: var(--shadow-primary); /* Sombra azul */
+}
+
+/* Botão secundário com cores sólidas */
+.btn-secondary {
+    background: var(--secondary-color);
+    color: var(--white);
+}
+
+.btn-secondary:hover {
+    background: var(--secondary-dark); /* Escurece no hover */
+}
+
+/* Botão de sucesso com gradiente */
+.btn-success {
+    background: var(--gradient-success); /* Gradiente verde */
+    color: var(--white);
+}
+
+.btn-success:hover {
+    transform: translateY(-2px); /* Mesma elevação que primary */
+    box-shadow: var(--shadow-success); /* Sombra verde */
+}
+
+/* ====================================================================
+   BARRA DE PROGRESSO
+   ================================================================== */
+
+/* 
+Barra de progresso usando variáveis para cores
+height: 6px = altura adequada para indicador sutil
+overflow: hidden necessário para border-radius funcionar
+*/
+.progress-bar {
+    width: 100%;
+    height: 6px; /* Altura sutil mas visível */
+    background: var(--border-color); /* Fundo neutro */
+    border-radius: 3px; /* Levemente arredondado */
+    margin-bottom: var(--spacing-xl);
+    overflow: hidden; /* Para border-radius funcionar no fill */
+}
+
+/* Preenchimento da barra usando gradiente reutilizável */
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-primary); /* Gradiente consistente */
+    border-radius: 3px;
+    transition: width var(--transition-normal); /* Animação suave da largura */
+}
+
+/* ====================================================================
+   CONTAINERS DE OUTPUT (ARQUIVOS GERADOS)
+   ================================================================== */
+
+/* 
+Container de output inicialmente oculto
+display: none = oculto por padrão
+JavaScript controla a visibilidade via .style.display
+*/
+.output-container {
+    display: none; /* Oculto até os arquivos serem gerados */
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+}
+
+/* 
+Blocos de código com tema escuro profissional
+font-family: monospace para código legível
+overflow-x: auto para scroll horizontal em código longo
+Cores do theme escuro para familiaridade (similar ao VS Code)
+*/
+.file-output {
+    background: var(--code-bg); /* Fundo escuro */
+    color: var(--code-text); /* Texto claro */
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    font-family: 'Courier New', monospace; /* Fonte monoespaçada */
+    font-size: 0.9rem; /* Ligeiramente menor para mais conteúdo */
+    line-height: 1.4; /* Line-height confortável para código */
+    overflow-x: auto; /* Scroll horizontal se necessário */
+}
+
+/* Header dos arquivos com destaque visual */
+.file-header {
+    color: var(--code-accent); /* Azul claro para destaque */
+    font-weight: bold;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--code-border); /* Divisor sutil */
+}
+
+/* ====================================================================
+   BOTÕES DE AÇÃO NOS ARQUIVOS
+   ================================================================== */
+
+/* 
+Botão de copiar com transição rápida
+transition apenas em background para melhor performance
+Tamanho menor apropriado para ação secundária
+*/
+.copy-btn {
+    background: var(--code-accent); /* Mesma cor do header */
+    color: var(--white);
+    border: none;
+    padding: 8px 16px; /* Padding menor que botões principais */
+    border-radius: var(--radius-sm); /* Border radius pequeno */
+    cursor: pointer;
+    font-size: 0.85rem; /* Fonte menor */
+    margin-top: var(--spacing-sm);
+    transition: background var(--transition-fast); /* Transição rápida */
+}
+
+.copy-btn:hover {
+    background: #357abd; /* Poderia ser uma variável --code-accent-dark */
+}
+
+/* ====================================================================
+   SISTEMA DE ALERTAS E DICAS
+   ================================================================== */
+
+/* 
+Caixa de dicas de segurança com cores de warning
+Uso de variáveis semânticas para cores consistentes
+border + background + text color = tema warning completo
+*/
+.security-tips {
+    background: var(--warning-bg); /* Fundo amarelo claro */
+    border: 1px solid var(--warning-border); /* Borda amarela */
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+/* Título das dicas usando cor de warning */
+.security-tips h3 {
+    color: var(--warning-color); /* Marrom para contraste */
+    margin-bottom: var(--spacing-md);
+}
+
+/* Lista das dicas com cor consistente */
+.security-tips ul {
+    color: var(--warning-color); /* Mesma cor do título */
+    padding-left: var(--spacing-lg); /* Indentação da lista */
+}
+
+.security-tips li {
+    margin-bottom: 8px; /* Poderia usar var(--spacing-sm) */
+}
+
+/* ====================================================================
+   ELEMENTOS DE AJUDA E FEEDBACK
+   ================================================================== */
+
+/* 
+Texto de ajuda explicativo com diferenciação visual
+font-style: italic para distinguir de texto normal
+Cor muted para hierarquia visual clara
+*/
+.help-text {
+    font-size: 0.85rem; /* Menor que texto normal */
+    color: var(--text-muted); /* Cor para textos secundários */
+    margin-top: var(--spacing-xs); /* Espaçamento mínimo */
+    font-style: italic; /* Diferenciação visual */
+}
+
+/* 
+Indicador de campo obrigatório
+Cor semântica danger para indicar obrigatoriedade
+Usado em spans dentro de labels
+*/
+.required {
+    color: var(--danger-color); /* Vermelho semântico */
+}

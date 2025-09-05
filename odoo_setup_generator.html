@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Configuração Odoo</title>
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="odoo_setup_generator.css">
+</head>
+<body>
+    <!-- Container principal que centraliza todo o conteúdo da aplicação -->
+    <div class="container">
+        <!-- Cabeçalho com título e descrição do gerador -->
+        <div class="header">
+            <h1>🛠 Gerador de Configuração Odoo</h1>
+            <p>Configure sua instância Odoo Community com segurança e facilidade</p>
+        </div>
+        
+        <!-- Container do conteúdo principal com wizard de configuração -->
+        <div class="content">
+            <!-- Barra de progresso visual que mostra o avanço nos 4 passos -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 25%;"></div>
+            </div>
+            
+            <!-- =================================================================== -->
+            <!-- PASSO 1: Configurações Básicas do Projeto -->
+            <!-- =================================================================== -->
+            <div class="step active" id="step1">
+                <div class="step-header">
+                    <h2 class="step-title">📋 Configurações Básicas</h2>
+                    <p class="step-description">
+                        Defina as configurações fundamentais da sua instância Odoo: nome do projeto, versão e portas de rede.
+                    </p>
+                </div>
+                
+                <!-- Layout em duas colunas para otimizar espaço -->
+                <div class="form-row">
+                    <!-- Coluna 1: Nome do projeto - usado para nomenclatura de containers -->
+                    <div class="form-col">
+                        <label for="projectName">Nome do Projeto <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="projectName" 
+                            placeholder="minha-empresa-odoo" 
+                            required
+                            pattern="^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+                        >
+                        <div class="help-text">
+                            Nome usado para containers e volumes. Apenas letras minúsculas, números e hífens.
+                            Não pode começar ou terminar com hífen.
+                        </div>
+                    </div>
+                    
+                    <!-- Coluna 2: Versão do Odoo - determina a imagem Docker -->
+                    <div class="form-col">
+                        <label for="odooVersion">Versão do Odoo <span class="required">*</span></label>
+                        <select id="odooVersion" required>
+                            <option value="18.0">18.0 (Mais Recente)</option>
+                            <option value="17.0" selected>17.0 (LTS - Recomendado)</option>
+                            <option value="16.0">16.0 (Estável)</option>
+                        </select>
+                        <div class="help-text">
+                            Versão 17.0 é LTS (Long Term Support) - mais estável para produção.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Segunda linha: Configurações de rede - portas que serão expostas -->
+                <div class="form-row">
+                    <!-- Porta principal do Odoo (interface web) -->
+                    <div class="form-col">
+                        <label for="httpPort">Porta HTTP <span class="required">*</span></label>
+                        <input 
+                            type="number" 
+                            id="httpPort" 
+                            value="8069" 
+                            min="1024" 
+                            max="65535" 
+                            required
+                        >
+                        <div class="help-text">
+                            Porta onde o Odoo será acessado (ex: http://localhost:8069)
+                        </div>
+                    </div>
+                    
+                    <!-- Porta para comunicação em tempo real (chat, notificações) -->
+                    <div class="form-col">
+                        <label for="chatPort">Porta Chat (Longpolling)</label>
+                        <input 
+                            type="number" 
+                            id="chatPort" 
+                            value="8072" 
+                            min="1024" 
+                            max="65535"
+                        >
+                        <div class="help-text">
+                            Porta para recursos em tempo real como chat e notificações.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Campo opcional para domínio personalizado -->
+                <div class="form-group">
+                    <label for="domain">Domínio (opcional)</label>
+                    <input 
+                        type="text" 
+                        id="domain" 
+                        placeholder="meuodoo.exemplo.com.br"
+                        pattern="^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$"
+                    >
+                    <div class="help-text">
+                        Deixe em branco se for usar apenas localmente. Será usado para configurações de email e SSL.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- =================================================================== -->
+            <!-- PASSO 2: Configurações do Banco de Dados PostgreSQL -->
+            <!-- =================================================================== -->
+            <div class="step" id="step2">
+                <div class="step-header">
+                    <h2 class="step-title">🗄️ Configurações do Banco de Dados</h2>
+                    <p class="step-description">
+                        Configure o PostgreSQL com credenciais seguras. As senhas são geradas automaticamente com alta entropia.
+                    </p>
+                </div>
+                
+                <!-- Configurações básicas do banco: nome da base e usuário -->
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="dbName">Nome da Base de Dados <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="dbName" 
+                            value="odoo" 
+                            required
+                            pattern="^[a-zA-Z][a-zA-Z0-9_]*$"
+                        >
+                        <div class="help-text">
+                            Nome da database no PostgreSQL. Deve começar com letra.
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <label for="dbUser">Usuário do Banco <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="dbUser" 
+                            value="odoo" 
+                            required
+                            pattern="^[a-zA-Z][a-zA-Z0-9_]*$"
+                        >
+                        <div class="help-text">
+                            Usuário PostgreSQL que o Odoo usará para conectar.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Campo de senha do banco com toggle de visibilidade -->
+                <div class="form-group">
+                    <label for="dbPassword">Senha do Banco <span class="required">*</span></label>
+                    <div style="position: relative;">
+                        <input 
+                            type="password" 
+                            id="dbPassword" 
+                            placeholder="Será gerada automaticamente" 
+                            style="padding-right: 100px;"
+                            required
+                            minlength="12"
+                        >
+                        <!-- Botão para alternar visibilidade da senha -->
+                        <button 
+                            type="button" 
+                            class="toggle-password" 
+                            data-field="dbPassword" 
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 14px; padding: 2px 4px;"
+                        >
+                            👁️ Mostrar
+                        </button>
+                    </div>
+                    <!-- Botão para gerar nova senha segura -->
+                    <button 
+                        type="button" 
+                        class="btn btn-secondary" 
+                        style="margin-top: 10px;" 
+                        onclick="wizard.generatePasswords()"
+                    >
+                        🔄 Gerar Senha Segura
+                    </button>
+                    <div class="help-text">
+                        Senha do usuário PostgreSQL. Gerada automaticamente com 24 caracteres seguros.
+                    </div>
+                </div>
+                
+                <!-- Campo de senha master do Odoo (para operações administrativas) -->
+                <div class="form-group">
+                    <label for="adminPassword">Senha Master do Odoo <span class="required">*</span></label>
+                    <div style="position: relative;">
+                        <input 
+                            type="password" 
+                            id="adminPassword" 
+                            placeholder="Será gerada automaticamente" 
+                            style="padding-right: 100px;"
+                            required
+                            minlength="12"
+                        >
+                        <!-- Botão para alternar visibilidade da senha master -->
+                        <button 
+                            type="button" 
+                            class="toggle-password" 
+                            data-field="adminPassword" 
+                            style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 14px; padding: 2px 4px;"
+                        >
+                            👁️ Mostrar
+                        </button>
+                    </div>
+                    <div class="help-text">
+                        Senha administrativa para criar/restaurar bancos de dados e operações sensíveis no Odoo.
+                    </div>
+                </div>
+                
+                <!-- Opção para expor porta do PostgreSQL (apenas desenvolvimento) -->
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enablePostgresPort"> 
+                        Expor porta 5432 do PostgreSQL
+                    </label>
+                    <div class="help-text">
+                        ⚠️ Recomendado apenas para desenvolvimento local. Permite acesso direto ao banco com ferramentas externas.
+                        <strong>Desabilite em produção por segurança.</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- =================================================================== -->
+            <!-- PASSO 3: Performance e Recursos do Sistema -->
+            <!-- =================================================================== -->
+            <div class="step" id="step3">
+                <div class="step-header">
+                    <h2 class="step-title">⚡ Performance e Recursos</h2>
+                    <p class="step-description">
+                        Configure os recursos do sistema para otimizar a performance baseado no seu ambiente e carga esperada.
+                    </p>
+                </div>
+                
+                <!-- Configurações de workers (processos) e threads para jobs automáticos -->
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="workers">Número de Workers</label>
+                        <select id="workers">
+                            <option value="0">0 (Desenvolvimento - Thread Único)</option>
+                            <option value="2">2 Workers (Produção Leve)</option>
+                            <option value="4" selected>4 Workers (Recomendado)</option>
+                            <option value="6">6 Workers (Alto Tráfego)</option>
+                            <option value="8">8 Workers (Muito Alto Tráfego)</option>
+                        </select>
+                        <div class="help-text">
+                            Workers são processos separados. 0 = modo single-thread para desenvolvimento.
+                            Para produção, use 2+ workers baseado no número de CPUs disponíveis.
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <label for="cronThreads">Threads Cron</label>
+                        <select id="cronThreads">
+                            <option value="1">1 Thread</option>
+                            <option value="2" selected>2 Threads (Recomendado)</option>
+                            <option value="4">4 Threads</option>
+                        </select>
+                        <div class="help-text">
+                            Threads para executar tarefas automáticas (emails, relatórios, sincronizações).
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Configurações de memória e nível de logging -->
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="memoryLimit">Limite de Memória</label>
+                        <select id="memoryLimit">
+                            <option value="1">1 GB (Mínimo - Teste)</option>
+                            <option value="2" selected>2 GB (Recomendado)</option>
+                            <option value="4">4 GB (Empresas Médias)</option>
+                            <option value="8">8 GB (Empresas Grandes)</option>
+                        </select>
+                        <div class="help-text">
+                            Limite de memória RAM para o container Odoo. Ajuste baseado na capacidade do servidor.
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <label for="logLevel">Nível de Log</label>
+                        <select id="logLevel">
+                            <option value="error">Error (Produção - Mínimo)</option>
+                            <option value="warn">Warning (Produção)</option>
+                            <option value="info" selected>Info (Recomendado)</option>
+                            <option value="debug">Debug (Desenvolvimento)</option>
+                        </select>
+                        <div class="help-text">
+                            Controla a verbosidade dos logs. Info é bom para monitoramento, Debug para desenvolvimento.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Serviços adicionais: Redis para cache e Nginx para proxy -->
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enableRedis" checked> 
+                        Habilitar Redis (Cache/Sessões)
+                    </label>
+                    <div class="help-text">
+                        ✅ <strong>Altamente recomendado.</strong> Redis melhora significativamente a performance 
+                        ao armazenar cache de sessões e dados temporários em memória.
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enableNginx"> 
+                        Habilitar Nginx (Proxy Reverso)
+                    </label>
+                    <div class="help-text">
+                        Recomendado para produção. Nginx oferece melhor handling de arquivos estáticos, 
+                        compressão, SSL/TLS e balanceamento de carga. Configure SSL separadamente.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- =================================================================== -->
+            <!-- PASSO 4: Revisão Final e Geração dos Arquivos -->
+            <!-- =================================================================== -->
+            <div class="step" id="step4">
+                <div class="step-header">
+                    <h2 class="step-title">✅ Revisão e Geração</h2>
+                    <p class="step-description">
+                        Revise suas configurações, veja os comandos necessários e gere todos os arquivos de configuração.
+                    </p>
+                </div>
+                
+                <!-- Container para o resumo automático da configuração -->
+                <div id="reviewContent">
+                    <!-- Será populado dinamicamente pelo JavaScript -->
+                </div>
+                
+                <!-- Preview dos comandos Docker que o usuário precisará executar -->
+                <div id="dockerCommands" style="background: #2d3748; color: #e2e8f0; border-radius: 10px; padding: 20px; margin: 20px 0;">
+                    <h3 style="color: #4a90e2; margin-bottom: 15px;">🐳 Comandos Docker para Executar</h3>
+                    <div style="font-family: monospace; font-size: 0.9rem;">
+                        <div style="margin-bottom: 10px;"># 1. Navegar para o diretório do projeto</div>
+                        <div style="color: #90cdf4; margin-bottom: 15px;">cd meu-projeto-odoo</div>
+                        
+                        <div style="margin-bottom: 10px;"># 2. Construir e iniciar os containers</div>
+                        <div style="color: #90cdf4; margin-bottom: 15px;">docker-compose up -d</div>
+                        
+                        <div style="margin-bottom: 10px;"># 3. Verificar se tudo está funcionando</div>
+                        <div style="color: #90cdf4; margin-bottom: 15px;">docker-compose ps</div>
+                        
+                        <div style="margin-bottom: 10px;"># 4. Ver logs do Odoo (se necessário)</div>
+                        <div style="color: #90cdf4; margin-bottom: 15px;">docker-compose logs -f odoo</div>
+                        
+                        <div style="margin-bottom: 10px;"># 5. Parar os containers</div>
+                        <div style="color: #90cdf4;">docker-compose down</div>
+                    </div>
+                </div>
+                
+                <!-- Dicas importantes de segurança e boas práticas -->
+                <div class="security-tips">
+                    <h3>🔒 Dicas de Segurança e Boas Práticas</h3>
+                    <ul>
+                        <li><strong>Senhas:</strong> As senhas foram geradas automaticamente com alta entropia (24 caracteres)</li>
+                        <li><strong>Arquivo .env:</strong> Mantenha o arquivo .env seguro e nunca o commite no git</li>
+                        <li><strong>Backup:</strong> Configure backups automáticos do PostgreSQL para não perder dados</li>
+                        <li><strong>SSL/TLS:</strong> Para produção, configure certificados SSL no Nginx</li>
+                        <li><strong>Firewall:</strong> Configure firewall para expor apenas as portas necessárias</li>
+                        <li><strong>Monitoramento:</strong> Use <code>docker-compose logs</code> para monitorar a aplicação</li>
+                        <li><strong>Atualizações:</strong> Mantenha as imagens Docker atualizadas regularmente</li>
+                    </ul>
+                </div>
+                
+                <!-- Botão para baixar todos os arquivos como ZIP -->
+                <div style="text-align: center; margin: 30px 0;">
+                    <button 
+                        class="btn btn-success" 
+                        id="downloadZipBtn" 
+                        onclick="wizard.downloadAsZip()"
+                        style="font-size: 1.1rem; padding: 15px 30px;"
+                    >
+                        📦 Baixar Todos os Arquivos (ZIP)
+                    </button>
+                    <div class="help-text" style="margin-top: 10px;">
+                        Baixa um arquivo ZIP com todos os arquivos de configuração e estrutura de pastas organizada.
+                    </div>
+                </div>
+                
+                <!-- Container para os arquivos gerados (exibição individual) -->
+                <div class="output-container" id="outputContainer">
+                    <!-- Será populado dinamicamente com os arquivos gerados -->
+                </div>
+            </div>
+            
+            <!-- =================================================================== -->
+            <!-- Botões de Navegação do Wizard -->
+            <!-- =================================================================== -->
+            <div class="buttons">
+                <!-- Botão Anterior (oculto no primeiro passo) -->
+                <button 
+                    class="btn btn-secondary" 
+                    id="prevBtn" 
+                    onclick="wizard.previousStep()" 
+                    style="display: none;"
+                >
+                    ⬅️ Anterior
+                </button>
+                
+                <!-- Indicador do passo atual -->
+                <div>Passo <span id="currentStep">1</span> de 4</div>
+                
+                <!-- Botão Próximo/Gerar (muda texto no último passo) -->
+                <button 
+                    class="btn btn-primary" 
+                    id="nextBtn" 
+                    onclick="wizard.nextStep()"
+                >
+                    Próximo ➡️
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclusão do arquivo JavaScript principal -->
+    <script src="odoo_setup_generator.js"></script>
+</body>
+</html>
