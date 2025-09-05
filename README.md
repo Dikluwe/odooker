@@ -40,14 +40,14 @@ meu-projeto-odoo/
 ## 🎮 Como Usar
 
 ### 1. Gerar Configurações
-1. Acesse o [Gerador Odooker](https://seu-usuario.github.io/gerador-odooker/)
+1. Acesse o [Gerador Odooker](https://dikluwe.github.io/odooker/).
 2. Complete os 4 passos do wizard
 3. Baixe o arquivo ZIP com todas as configurações
 
 ### 2. Executar o Projeto
 ```bash
 # Extrair o ZIP e navegar para a pasta
-cd meu-projeto-odoo
+cd nome-do-seu-projeto
 
 # Executar o script de setup (Linux/Mac)
 chmod +x setup.sh && ./setup.sh
