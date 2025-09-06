@@ -972,27 +972,18 @@ class OdooConfigurationWizard {
         // === BOTÕES DE NAVEGAÇÃO ===
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
-        
+        const generateBtn = document.querySelector('button[onclick*="generatePasswords"]');
+		
+		if (generateBtn) {
+		    generateBtn.onclick = (e) => {
+		        e.preventDefault();
+		        this.generatePasswords();
+		        showToast('Novas senhas geradas com sucesso!', 'success');
+		    };
+		}
         if (nextBtn) nextBtn.onclick = () => this.nextStep();
         if (prevBtn) prevBtn.onclick = () => this.previousStep();
-        
-        // === EVENT LISTENER GLOBAL PARA CLIQUES ===
-        document.addEventListener('click', (e) => {
-            // Toggle de visibilidade de senhas
-            if (e.target.classList.contains('toggle-password')) {
-                e.preventDefault();
-                const fieldId = e.target.dataset.field;
-                togglePasswordVisibility(fieldId);
-                return;
-            }
-            
-            // Botão de gerar senhas
-            if (e.target.textContent.includes('Gerar Senha')) {
-                e.preventDefault();
-                this.generatePasswords();
-                showToast('Novas senhas geradas com sucesso!', 'success');
-                return;
-            }
+		
         });
         
         // === VALIDAÇÃO EM TEMPO REAL ===
@@ -1584,3 +1575,4 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Gerador de Configuração Odoo pronto para uso!');
 
 });
+
