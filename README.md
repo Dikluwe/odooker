@@ -1,4 +1,5 @@
-# 🐳 Gerador Odooker
+![Logo do Odooker](imagem/odoocker.png)
+# Gerador Odooker
 
 **Gerador de configurações Docker para Odoo Community Edition**
 
