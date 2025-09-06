@@ -117,7 +117,7 @@ function validateForm(config) {
     // Domínio é opcional, mas se fornecido deve ter formato válido
     if (config.domain && config.domain.trim() !== '') {
         // Regex mais rigoroso para domínios: pelo menos um ponto, sem caracteres especiais
-        if (!config.domain.match(/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/)) {
+        if (!config.domain.match(/^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/)) {
             errors.push('Formato de domínio inválido (ex: meusite.com.br)');
         }
         
@@ -1039,7 +1039,7 @@ class OdooConfigurationWizard {
                 break;
                 
             case 'domain':
-                if (value && !value.match(/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/)) {
+                if (value && !value.match(/^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/)) {
                     isValid = false;
                     message = 'Formato de domínio inválido';
                 }
@@ -1582,4 +1582,5 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM carregado, inicializando wizard...');
     wizard = new OdooConfigurationWizard();
     console.log('Gerador de Configuração Odoo pronto para uso!');
+
 });
